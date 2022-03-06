@@ -12,6 +12,10 @@
   },
   "author": "Shaun Soria",
   "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.9.0",
+    "crypto": "^1.0.1"
+  },
   "bugs": {
     "url": "https://github.com/Solarisray/Cloris/issues"
   },
