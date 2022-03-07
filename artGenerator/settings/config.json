@@ -1,0 +1,18 @@
+{
+    "layers" : [
+        "Backgrounds",
+        "Body",
+        "Shoes",
+        "Pants",
+        "Suits",
+        "Heads",
+        "Hats"
+    ],
+    "imageDescription" : "Cloris",
+    "imageCount" : "1000",
+    "imageDetails" : {
+        "width"  : 1080,
+        "height" : 1080
+    },
+    "imageLocation" : "ipfs://..."
+}
