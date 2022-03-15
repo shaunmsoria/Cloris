@@ -1,0 +1,243 @@
+{
+  "layers": [
+    {
+      "name": "Backgrounds",
+      "attributes": [
+        {
+          "name": "blue.png",
+          "weight": 10
+        },
+        {
+          "name": "brown.png",
+          "weight": 10
+        },
+        {
+          "name": "charcoal.png",
+          "weight": 10
+        },
+        {
+          "name": "green.png",
+          "weight": 10
+        },
+        {
+          "name": "white.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Body",
+      "attributes": [
+        {
+          "name": "body1.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Shoes",
+      "attributes": [
+        {
+          "name": "shoes1.png",
+          "weight": 10
+        },
+        {
+          "name": "shoes2.png",
+          "weight": 10
+        },
+        {
+          "name": "shoes3.png",
+          "weight": 10
+        },
+        {
+          "name": "shoes4.png",
+          "weight": 10
+        },
+        {
+          "name": "shoes5.png",
+          "weight": 10
+        },
+        {
+          "name": "shoes6.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Pants",
+      "attributes": [
+        {
+          "name": "pants1.png",
+          "weight": 10
+        },
+        {
+          "name": "pants2.png",
+          "weight": 10
+        },
+        {
+          "name": "pants3.png",
+          "weight": 10
+        },
+        {
+          "name": "pants4.png",
+          "weight": 10
+        },
+        {
+          "name": "pants5.png",
+          "weight": 10
+        },
+        {
+          "name": "pants6.png",
+          "weight": 10
+        },
+        {
+          "name": "pants7.png",
+          "weight": 10
+        },
+        {
+          "name": "pants8.png",
+          "weight": 10
+        },
+        {
+          "name": "pants9.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Suits",
+      "attributes": [
+        {
+          "name": "suit1.png",
+          "weight": 10
+        },
+        {
+          "name": "suit10.png",
+          "weight": 10
+        },
+        {
+          "name": "suit11.png",
+          "weight": 10
+        },
+        {
+          "name": "suit12.png",
+          "weight": 10
+        },
+        {
+          "name": "suit13.png",
+          "weight": 10
+        },
+        {
+          "name": "suit2.png",
+          "weight": 10
+        },
+        {
+          "name": "suit3.png",
+          "weight": 10
+        },
+        {
+          "name": "suit4.png",
+          "weight": 10
+        },
+        {
+          "name": "suit5.png",
+          "weight": 10
+        },
+        {
+          "name": "suit6.png",
+          "weight": 10
+        },
+        {
+          "name": "suit7.png",
+          "weight": 10
+        },
+        {
+          "name": "suit8.png",
+          "weight": 10
+        },
+        {
+          "name": "suit9.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Heads",
+      "attributes": [
+        {
+          "name": "head1.png",
+          "weight": 10
+        },
+        {
+          "name": "head10.png",
+          "weight": 10
+        },
+        {
+          "name": "head2.png",
+          "weight": 10
+        },
+        {
+          "name": "head3.png",
+          "weight": 10
+        },
+        {
+          "name": "head4.png",
+          "weight": 10
+        },
+        {
+          "name": "head5.png",
+          "weight": 10
+        },
+        {
+          "name": "head6.png",
+          "weight": 10
+        },
+        {
+          "name": "head7.png",
+          "weight": 10
+        },
+        {
+          "name": "head8.png",
+          "weight": 10
+        },
+        {
+          "name": "head9.png",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "name": "Hats",
+      "attributes": [
+        {
+          "name": "hat1.png",
+          "weight": 10
+        },
+        {
+          "name": "hat2.png",
+          "weight": 10
+        },
+        {
+          "name": "hat3.png",
+          "weight": 10
+        },
+        {
+          "name": "hat4.png",
+          "weight": 10
+        },
+        {
+          "name": "hat5.png",
+          "weight": 10
+        },
+        {
+          "name": "hat6.png",
+          "weight": 10
+        },
+        {
+          "name": "hat7.png",
+          "weight": 10
+        }
+      ]
+    }
+  ]
+}
