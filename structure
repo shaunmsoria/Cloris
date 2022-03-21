@@ -1,0 +1,32 @@
+{
+	{	
+		name: pic1,
+		layers: [
+			{
+				name: "Background",
+				attributes: "blue.png"
+			},
+						{
+				name: "Body",
+				attributes: "body1.png"
+			},
+			...
+		]
+	},
+	{	
+		name: pic2,
+		layers: [
+			{
+				name: "Background",
+				attributes: "brown.png"
+			},
+						{
+				name: "Body",
+				attributes: "body1.png"
+			},
+			...
+		]
+	},
+	
+}
+		
