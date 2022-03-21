@@ -14,7 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "canvas": "^2.9.0",
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "mathjs": "^10.4.0"
   },
   "bugs": {
     "url": "https://github.com/Solarisray/Cloris/issues"
