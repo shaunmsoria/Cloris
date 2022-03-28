@@ -1,0 +1,38 @@
+{
+  "id": "2478c01b2c2e4589d4a063ccd802157d881d01f5",
+  "name": "picture355",
+  "description": "Cloris",
+  "image": "ipfs://QmeJ7Hrof45aDfa4LAK4RSsJiVMGAHFcWH1pxFjnwXyDVa/picture355.json",
+  "edition": "1",
+  "date": 1648498871372,
+  "attributes": [
+    {
+      "trait_type": "Backgrounds",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Body 1"
+    },
+    {
+      "trait_type": "Shoes",
+      "value": "Shoes 4"
+    },
+    {
+      "trait_type": "Pants",
+      "value": "Pants 8"
+    },
+    {
+      "trait_type": "Suits",
+      "value": "Suit 5"
+    },
+    {
+      "trait_type": "Heads",
+      "value": "Head 3"
+    },
+    {
+      "trait_type": "Hats",
+      "value": "Hat 7"
+    }
+  ]
+}

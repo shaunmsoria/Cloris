@@ -6,7 +6,9 @@ const canva = require("canvas");
 const fs = require("fs");
 
 const base = process.cwd();
-const imagePath = path.join(base,"/images");
+const layerPath = path.join(base,"/layers");
+const imagePath = path.join(base,"/build/images");
+const metaPath = path.join(base,"/build/json");
 
 // ### Generate a random integer to define which attribute will be used
 function randAttribute(_array){
@@ -15,7 +17,6 @@ function randAttribute(_array){
         randRange += _array[i].weight;
     };
     let value = round(random(randRange));
-    // console.log(`The value of "value" is: ${value}`);
     let threshold = 0; 
     let index = 0;
     for ( let j = 0; j < _array.length; j++){
@@ -29,73 +30,72 @@ function randAttribute(_array){
     return index-1;
 };
 
-// ### create the metaData for each picture
-function metaPic(){
-    let dataObj = ``;
+function randId(){
+    const result = [];
+    const hexRef = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+    for( let i = 0; i < 40; i++){
+        result.push(hexRef[Math.floor(Math.random() * 16)]);
+    }
+    return result.join('');
+}
+
+async function createPic(picName){
+    const width = config.imageDetails.width;
+    const height = config.imageDetails.height;
+    const canvas = canva.createCanvas(width, height);
+    const context = canvas.getContext(`2d`);
+    
+    let dataArr = [];
+
     for (let i =0; i < rarity.layers.length; i++){
         let randAttrValue = randAttribute(rarity.layers[i].attributes);
-        // console.log(`metaPic attributes[0]: ${JSON.stringify(rarity.layers[i].name)}`);
-        // console.log(`randAttrValue is: ${randAttrValue}`);
-        dataObj += `${JSON.stringify(rarity.layers[i].name)}:${JSON.stringify(rarity.layers[i].attributes[randAttrValue].name)}${(i == rarity.layers.length - 1) ? "" : ","}`;
+        dataArr.push({trait_type: rarity.layers[i].name, value: rarity.layers[i].attributes[randAttrValue].name});
+        console.log(`trait is ${dataArr[i].trait_type} and value is ${dataArr[i].value}`);
+        await canva.loadImage(path.join(layerPath, `/${dataArr[i].trait_type}/${dataArr[i].value}`)).then(image => {
+            context.drawImage(image,0,0,width,height);
+            const buffer = canvas.toBuffer("image/png");
+            fs.writeFileSync(`${imagePath}/${picName}.png`, buffer);
+            console.log('Canva written in file'); 
+        });
     };
-    // console.log(`dataObj: ${dataObj}`);
-    // console.log(`return: ${`{${dataObj}}`}`);
-    return JSON.parse(`{${dataObj}}`);
+    return dataArr;
+}
+
+// ### create each Pictures sequentially
+async function createMeta(picName){
+    let picFile = `${metaPath}/${picName}.json`;
+    let resultPic = await createPic(picName);
+    let content = {id:randId(),name:picName,description:"Cloris",image:"",edition:config.edition,date:Date.now(),attributes:resultPic};
+    
+    fs.writeFileSync(picFile,JSON.stringify(content, null, 2));
+
 };
 
-function createImg(objImg){
-    // console.log(`objImg name is ${objImg.name}`);
-    // console.log(`objImg obj is ${objImg.layers}`);
-    // console.log(`objImg length is ${Object.keys(objImg.layers).length}`);
-    // const imgLength = Object.keys(objImg.layers).length;
+// ### create meta directory and save metaData
+function saveMeta(_metaData){
+    fs.mkdir(`${metaPath}`, {recursive: true}, (err)=> {(err) ? console.log(err) : console.log(`the directory ${metaPath} was successfully created`)});
+    fs.writeFile(`${metaPath}/metaData.json`,JSON.stringify(_metaData, null, 2),(err)=>{(err) ? console.log(err) : console.log(`metaData.json successfully created`)});
+}
 
-    const arrayImg = Object.entries(objImg.layers);
-    console.log(`arrayImg is ${arrayImg}`);
-    for (let i = 0; i < arrayImg.length; i++){
-        console.log(`objImg name is ${arrayImg[i][0]} and objImg layers ${arrayImg[i][1]}`);
-    };
-};
-
-
-
-function create() {
+// ### execute the picture creation protocol
+async function create() {
     // ### generate x nb of images
     let metaData = [];
     fs.mkdir(imagePath, { recursive: true}, (err)=>{if (err){throw err}});
+    fs.mkdir(metaPath, { recursive: true}, (err)=>{if (err){throw err}});
 
-    for ( i = 0; i < config.imageCount ; i++){
+    for (let i = 0; i < config.imageCount ; i++){
         const picData = {};
         console.log(`index value ${i}`);
         picData.name = `picture${i+1}`; 
-        picData.layers = metaPic();
-        // console.log(`picData.name is: ${picData.name}`);        
-        // console.log(`picData.layers: ${picData.layers}`);
-        metaData.push(picData);
-        console.log(`metaData${i}.name is: ${metaData[i].name} and metaData${i}.layers is: ${metaData[i].layers} `);
-        createImg(metaData[i]);
-    };  
-    // console.log(`full metaData is: ${metaData}`);
-    // console.log(`metaData 1 index: ${metaData[1]}`);
-    // console.log(`metaData 1 name: ${metaData[1].name}`);
-    // console.log(`metaData 1 layers: ${metaData[1].layers}`);
-    // console.log(`metaData 1 layers.Backgrounds: ${metaData[1].layers.Backgrounds}`);
-    
+        picData.layers = await createMeta(picData.name);
+    }; 
+
 };
 
-  
-    
 
-    // each image need to be randomly created from the 
-    //      config and rarity JSONs
-    //      ** image created from canva following the metadata
-    // store each image in the project
-    // store each image metadata in the project
-
-
-
-
-const main = async() => {
-    await create();
+function main () {
+    create();
 };
 
 main ();
