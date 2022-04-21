@@ -1,6 +1,8 @@
-require('babel-register');
-require('babel-polyfill');
-require('dotenv').config();
+require('babel-register');    //added
+require('babel-polyfill');    //added
+require('dotenv').config();   //added
+
+
 
 /**
  * Use this file to configure your truffle project. It's seeded with some
@@ -76,8 +78,8 @@ module.exports = {
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
   },
-  contracts_directory: './src/contracts/',
-  contracts_build_directory: './src/abis/',
+  contracts_directory: './src/contracts/',      //added
+  contracts_build_directory: './src/abis/',     //added
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
