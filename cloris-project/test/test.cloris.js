@@ -172,7 +172,7 @@ contract('Cloris', ([deployer, user1, user2, user3, user4]) => {
 
     })
 
-    describe('track the ownership', () => {
+    describe('track the ownership functionalities', () => {
         it('Balance of msg.sender', async () => {
             const mintNumber = 3
             const mintTest = await cloris.mintContract(mintNumber)
