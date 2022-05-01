@@ -1,23 +1,28 @@
 import logo from './logo.svg';
+import { Button } from 'react-bootstrap';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="socialMedia">
+        <span>Welcome to the Cloris Project!</span>
+      </div>
+      <div className="content" alt="content">
+        <div>
+          <img src={logo} className="App-logo" alt="logo"/>
+        </div>
+        <div className="timeText">          
+          <span>Time left before the minting: "timeLeftBeforeMinting"</span>
+          <button>mint</button>
+          <span>Time since the minting "timeSinceMinting"</span>
+        </div>
+
+      </div>
+      <div className="socialMedia">
+        <span>social medias</span>
+      </div>
+
     </div>
   );
 }
