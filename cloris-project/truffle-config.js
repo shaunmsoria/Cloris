@@ -1,5 +1,6 @@
-require('babel-register');    //added
-require('babel-polyfill');    //added
+
+require('@babel/register');
+require('@babel/polyfill');
 require('dotenv').config();   //added
 
 
