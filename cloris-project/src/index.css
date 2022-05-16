@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.SplitPane {
+  background-color: black;
+  width:100em;
+  height: 50em;
+}
+
+.SplitPane-left {
+  background-color: yellow;
+  width: 20em;
+  height: 20em;
+}
+
+.SplitPane-right{
+  background-color: blue;
+  width: 40em;
+  height: 20em;
+}
