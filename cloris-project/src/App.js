@@ -10,16 +10,29 @@ import { ethers } from "ethers";
 class App extends React.Component {
     constructor (props){
         super(props);
-        this.state = { signer: ""};
+        this.state = { 
+            signer: "",
+            provider: new ethers.providers.Web3Provider(window.ethereum)
+        };
 
     }
 
     async componentDidMount(){
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const testSigner = provider.getSigner();
+        // const provider = new ethers.providers.Web3Provider(window.ethereum);
+        // await provider.send("eth_requestAccounts", []);
+        await this.state.provider.send("eth_requestAccounts", []);
+        const testSigner = this.state.provider.getSigner();
         console.log(testSigner);
         this.setState({signer: testSigner});
+        const blockNumber = await this.state.provider.getBlockNumber();
+        console.log(`The value of blockNumber is ${blockNumber}`);
+        const balance = await this.state.provider.getBalance("ethers.eth");
+        console.log(`The value of balance is ${balance}`);
+        const balanceEther = ethers.utils.formatEther(balance);
+        console.log(`The value of balanceEther is ${balanceEther}`);
+        console.log(`The value of balanceWei is ${ethers.utils.parseEther(balanceEther)}`);
+
+
     }
 
 
