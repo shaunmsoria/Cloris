@@ -12,7 +12,12 @@ class App extends React.Component {
         super(props);
         this.state = { 
             signer: "",
-            provider: new ethers.providers.Web3Provider(window.ethereum)
+            provider: new ethers.providers.Web3Provider(window.ethereum),
+            clorisAddress: "0x60FF219f860d8e955000a407E788f1ECfF5ab138",
+            clorisAbi: [
+                "function name() view returns (string)",
+                "function symbol() view returns (string)"
+            ]
         };
 
     }
@@ -25,14 +30,19 @@ class App extends React.Component {
         console.log(testSigner);
         this.setState({signer: testSigner});
         const blockNumber = await this.state.provider.getBlockNumber();
-        console.log(`The value of blockNumber is ${blockNumber}`);
-        const balance = await this.state.provider.getBalance("ethers.eth");
-        console.log(`The value of balance is ${balance}`);
-        const balanceEther = ethers.utils.formatEther(balance);
-        console.log(`The value of balanceEther is ${balanceEther}`);
-        console.log(`The value of balanceWei is ${ethers.utils.parseEther(balanceEther)}`);
-
-
+        // console.log(`The value of blockNumber is ${blockNumber}`);
+        // const balance = await this.state.provider.getBalance("ethers.eth");
+        // console.log(`The value of balance is ${balance}`);
+        // const balanceEther = ethers.utils.formatEther(balance);
+        // console.log(`The value of balanceEther is ${balanceEther}`);
+        // console.log(`The value of balanceWei is ${ethers.utils.parseEther(balanceEther)}`);
+        // const transaction = this.state.signer.sendTransaction({
+        //      to: "0x40953332Fe1c3838b93Ed6071403A7CD54eb9AE1",
+        //      value: ethers.utils.parseEther("1.0")
+        // });
+        const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+        console.log(`the name of the contract is ${await clorisContract.name()}`);
+        console.log(`the symbol of the contract is ${await clorisContract.symbol()}`)
     }
 
 
