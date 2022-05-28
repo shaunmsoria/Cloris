@@ -13,10 +13,18 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x60FF219f860d8e955000a407E788f1ECfF5ab138",
+            clorisAddress: "0x44F9Ff6E64FE6b901De19bE356e8eB7f72e73C71",
             clorisAbi: [
                 "function name() view returns (string)",
-                "function symbol() view returns (string)"
+                "function symbol() view returns (string)",
+                "function deployedTime() view returns (uint)",
+                "function maxMintAccount() view returns (uint)",
+                "function mintCost() view returns (uint)",
+                "function maxSupply() view returns (uint)",
+                "function tokenMaxPurchase() view returns (uint)",
+                "function mintTime() view returns (uint)",
+                "function isPaused() view returns (bool)",
+                "function mintContract(uint) payable returns ()"
             ]
         };
 
@@ -42,7 +50,15 @@ class App extends React.Component {
         // });
         const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
-        console.log(`the symbol of the contract is ${await clorisContract.symbol()}`)
+        console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
+        console.log(`the deployedTime of the contract is ${await clorisContract.deployedTime()}`);
+        console.log(`the maxMintAccount of the contract is ${await clorisContract.maxMintAccount()}`);
+        console.log(`the mintCost of the contract is ${await clorisContract.mintCost()}`);
+        console.log(`the maxSupply of the contract is ${await clorisContract.maxSupply()}`);
+        console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
+        console.log(`the mintTime of the contract is ${await clorisContract.mintTime()}`);
+        console.log(`the isPaused of the contract is ${await clorisContract.isPaused()}`);
+        // console.log(`the mintContract of the contract is ${await clorisContract.mintContract(1, {from: testSigner})}`);
     }
 
 
@@ -84,7 +100,7 @@ export default App;
 //                  <h1>
 //                      Welcome to the Cloris Project!
 //                  </h1>
-//              </div>
+//              </div>https://github.com/Solarisray/Cloris
 //              <div className="content">
 //                  <div>
 //                      <img src={logo} className="App-logo" alt="logo" />
