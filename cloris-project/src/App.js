@@ -13,7 +13,7 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x44F9Ff6E64FE6b901De19bE356e8eB7f72e73C71",
+            clorisAddress: "0x2A5c38ED3564FB8F03eBad1bCc2922bcF067f53B",
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -49,6 +49,7 @@ class App extends React.Component {
         //      value: ethers.utils.parseEther("1.0")
         // });
         const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+        const clorisSigner = clorisContract.connect(this.state.signer);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
         console.log(`the deployedTime of the contract is ${await clorisContract.deployedTime()}`);
@@ -58,7 +59,7 @@ class App extends React.Component {
         console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
         console.log(`the mintTime of the contract is ${await clorisContract.mintTime()}`);
         console.log(`the isPaused of the contract is ${await clorisContract.isPaused()}`);
-        // console.log(`the mintContract of the contract is ${await clorisContract.mintContract(1, {from: testSigner})}`);
+        console.log(`the mintContract of the contract is ${await clorisSigner.mintContract(1)}`);
     }
 
 
@@ -77,7 +78,7 @@ class App extends React.Component {
                     </div>
                     <div className="status">
                         <span>
-                            Value time left before minting {this.state.signer._index}
+                            Time left before minting {this.state.signer._index}
                         </span>
                     </div>
                 </div>
@@ -93,29 +94,4 @@ class App extends React.Component {
 
 export default App;
 
-// function App (){
-//     return (
-//         <div className="App">
-//              <div className="title">
-//                  <h1>
-//                      Welcome to the Cloris Project!
-//                  </h1>
-//              </div>https://github.com/Solarisray/Cloris
-//              <div className="content">
-//                  <div>
-//                      <img src={logo} className="App-logo" alt="logo" />
-//                  </div>
-//                  <div className="status">
-//                      <span>
-//                          Value time left before minting
-//                      </span>
-//                  </div>
-//              </div>
-//              <div className="socialMedia">
-//                  <h1>
-//                      Social Media
-//                 </h1>
-//              </div>
-//          </div>
-//     );
-// }
+
