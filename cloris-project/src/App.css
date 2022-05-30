@@ -23,6 +23,12 @@
     justify-content: center;
 }
 
+.timeReference {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+
 .socialMedia{
     display: flex;
     flex-direction: column;

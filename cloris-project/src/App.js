@@ -13,7 +13,7 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x2A5c38ED3564FB8F03eBad1bCc2922bcF067f53B",
+            clorisAddress: "0x84bdFF44b36cF1aD0dA2D14cbb138f5a8549aE4d",
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -25,9 +25,36 @@ class App extends React.Component {
                 "function mintTime() view returns (uint)",
                 "function isPaused() view returns (bool)",
                 "function mintContract(uint) payable returns ()"
-            ]
+            ],
+            // date: Math.floor(new Date() / 1000),
+            // countDownDate: Math.floor(new Date("May 31, 2022 16:00:00") / 1000),
+            date: Math.floor(new Date() / 1000),
+            countDownDate: Math.floor(new Date("May 31, 2022 07:00:00") / 1000),
+            timeLeft: ""
         };
 
+    }
+
+    calculateTimeLeft(){
+
+        const oneDay = 60 * 60 * 24;
+        const oneHour = 60 * 60;
+        const oneMinute = 60;
+        const calTimeLeft = this.state.countDownDate - this.state.date;
+        const daysLeft = calTimeLeft / oneDay;
+        const hoursLeft = (calTimeLeft % oneDay) / oneHour;
+        const minutesLeft = (calTimeLeft % hoursLeft) / oneMinute;
+        const secondsLeft = calTimeLeft % minutesLeft;
+        
+        if(this.state.countDownDate - this.state.date > 0 ){
+            this.setState(
+                {timeLeft: `Time left before deployment: Days Left: ${daysLeft.toFixed(0)} Hours Left: ${hoursLeft.toFixed(0)} Minutes Left: ${minutesLeft.toFixed(0)} Seconds Left: ${secondsLeft.toFixed(0)}`}
+            )
+        } else {
+            this.setState(
+                {timeLeft: `Contract deployed since: ${(daysLeft * (- 1)).toFixed(0)} Days, ${(hoursLeft * (- 1)).toFixed(0)} Hours, ${(minutesLeft * (- 1)).toFixed(0)} Minutes, ${(secondsLeft * (- 1)).toFixed(0)} Seconds`}
+            )
+        }
     }
 
     async componentDidMount(){
@@ -35,8 +62,8 @@ class App extends React.Component {
         // await provider.send("eth_requestAccounts", []);
         await this.state.provider.send("eth_requestAccounts", []);
         const testSigner = this.state.provider.getSigner();
-        console.log(testSigner);
         this.setState({signer: testSigner});
+        this.calculateTimeLeft();
         const blockNumber = await this.state.provider.getBlockNumber();
         // console.log(`The value of blockNumber is ${blockNumber}`);
         // const balance = await this.state.provider.getBalance("ethers.eth");
@@ -50,6 +77,7 @@ class App extends React.Component {
         // });
         const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
         const clorisSigner = clorisContract.connect(this.state.signer);
+        console.log(`The value of testSigner is ${testSigner}`);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
         console.log(`the deployedTime of the contract is ${await clorisContract.deployedTime()}`);
@@ -59,8 +87,13 @@ class App extends React.Component {
         console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
         console.log(`the mintTime of the contract is ${await clorisContract.mintTime()}`);
         console.log(`the isPaused of the contract is ${await clorisContract.isPaused()}`);
-        console.log(`the mintContract of the contract is ${await clorisSigner.mintContract(1)}`);
+        // console.log(`the mintContract of the contract is ${await clorisSigner.mintContract(1)}`);
+        console.log(`the value of date is ${this.state.date}`);
+        console.log(`the value of countDownDate is ${this.state.countDownDate}`)
+        console.log(`the value of timeLeft is ${this.state.timeLeft}`);
     }
+
+
 
 
 
@@ -77,8 +110,11 @@ class App extends React.Component {
                         <img src={logo} className="App-logo" alt="logo" />
                     </div>
                     <div className="status">
-                        <span>
-                            Time left before minting {this.state.signer._index}
+                        <span className="timeReference">
+                            Deployment Time is: {this.state.date}
+                        </span>
+                        <span className="timeReference">
+                            {this.state.timeLeft}
                         </span>
                     </div>
                 </div>
