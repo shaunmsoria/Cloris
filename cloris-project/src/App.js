@@ -13,7 +13,7 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x9c08F81132f054D24D290E3fa7BC94bC9C7e358C",
+            clorisAddress: "0x396e921D896f2e549d1145121f74437AaA77d25A",
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -27,10 +27,13 @@ class App extends React.Component {
                 "function mintContract(uint) payable returns ()"
             ],
             date: Math.floor(new Date() / 1000),
-            countDownDate: Math.floor(new Date("Jun 1 2022 07:30:00") / 1000),
+            // countDownDate: Math.floor(new Date("Jun 1 2022 07:30:00") / 1000),
+            countDownDate: "",
             deploymentTime: "",
-            timeLeft: ""
+            timeLeft: "",
+            isFuture: false,
         };
+        this.handleClick = this.handleClick.bind(this);
 
     }
 
@@ -38,14 +41,14 @@ class App extends React.Component {
         const oneDay = 60 * 60 * 24;
         const oneHour = 60 * 60;
         const oneMinute = 60;
-        const isFuture = (this.state.countDownDate - this.state.date >= 0) ? true : false;
+        this.setState({isFuture: (this.state.countDownDate - this.state.date >= 0) ? true : false});
         const calTimeLeft = (this.state.countDownDate - this.state.date >= 0) ? this.state.countDownDate - this.state.date : this.state.date - this.state.countDownDate;
         const daysLeft = Math.floor((calTimeLeft / oneDay));
         const hoursLeft = Math.floor(((calTimeLeft & oneDay) / oneHour));
         const minutesLeft = Math.floor(((calTimeLeft % oneDay) % oneHour) / oneMinute);
         const secondsLeft = Math.floor(((calTimeLeft % oneDay) % oneHour) % oneMinute);
         this.setState(
-            {timeLeft: `${(isFuture) ? "Time left before minting:" : "Time since the contract was minted:"} ${daysLeft} Days, ${hoursLeft} Hours, ${minutesLeft} Minutes, ${secondsLeft} Seconds`} 
+            {timeLeft: `${(this.state.isFuture) ? "Time left before minting:" : "Time since the contract was minted:"} ${daysLeft} Days, ${hoursLeft} Hours, ${minutesLeft} Minutes, ${secondsLeft} Seconds`} 
         )
     }
 
@@ -56,15 +59,21 @@ class App extends React.Component {
         this.calculateTimeLeft();
     }
 
+    async handleClick (){
+        const clickResult = await this.state.clorisSigner.mintContract(1);
+    }
+
     async componentDidMount(){
         await this.state.provider.send("eth_requestAccounts", []);
         const defineSigner = this.state.provider.getSigner();
                this.setState({signer: defineSigner});
 
         const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
-        const clorisSigner = clorisContract.connect(this.state.signer);
+        // const clorisSigner = clorisContract.connect(this.state.signer);
+        this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
 
-        this.setState({deploymentTime: `${new Date(await clorisContract.deployedTime() * 1000)}`});
+        this.setState({deploymentTime: `${(new Date(await clorisContract.deployedTime() * 1000)).toLocaleString("en-US", {timeZoneName: "short"})}`});
+        this.setState({countDownDate: `${await clorisContract.mintTime()}`});
         this.calculateTimeLeft();
 
         this.timerID = setInterval(
@@ -100,12 +109,23 @@ class App extends React.Component {
         // });
     }
 
+    RenderButton (){
+        if(this.state.isFuture) {
+            return null;
+        } 
+    
+        return (
+            <button onClick={this.handleClick}>
+                Mint Cloris!
+            </button>
+        )
+    }
+
     componentWillUnmount(){
         clearInterval(this.timerID);
     }
 
-
-
+    
     render (){
         return (
             <div className="App">
@@ -119,6 +139,16 @@ class App extends React.Component {
                         <img src={logo} className="App-logo" alt="logo" />
                     </div>
                     <div className="status">
+                        {/* <button onClick={this.handleClick}>
+                            Mint Cloris!
+                        </button> */}
+                        {/* <RenderButton isFuture={this.state.isFuture} /> */}
+                        {/* {this.RenderButton} */}
+                        {/* <RenderButton /> */}
+                        {(this.state.isFuture) ? null : 
+                                <button onClick={this.handleClick}>
+                                    Mint Cloris!
+                                </button>}
                         <span className="timeReference">
                             Deployment Time is: {this.state.deploymentTime}
                         </span>
@@ -136,6 +166,18 @@ class App extends React.Component {
         );
     }
 }
+
+// RenderButton (props){
+//     if(props.isFuture) {
+//         return null;
+//     } 
+
+//     return (
+//         <button onClick={this.handleClick}>
+//             Mint Cloris!
+//         </button>
+//     )
+// }
 
 export default App;
 
