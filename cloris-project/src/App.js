@@ -13,7 +13,7 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x396e921D896f2e549d1145121f74437AaA77d25A",
+            clorisAddress: "0x55B239D040ebf5B3130536F4216Eb34D5A16e065",
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -60,7 +60,7 @@ class App extends React.Component {
     }
 
     async handleClick (){
-        const clickResult = await this.state.clorisSigner.mintContract(1);
+        let mintResult = await this.state.clorisSigner.mintContract(1);
     }
 
     async componentDidMount(){
@@ -70,7 +70,8 @@ class App extends React.Component {
 
         const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
         // const clorisSigner = clorisContract.connect(this.state.signer);
-        this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
+        // await this.setState({clorisContract: new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider)});
+        await this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
 
         this.setState({deploymentTime: `${(new Date(await clorisContract.deployedTime() * 1000)).toLocaleString("en-US", {timeZoneName: "short"})}`});
         this.setState({countDownDate: `${await clorisContract.mintTime()}`});
@@ -85,18 +86,19 @@ class App extends React.Component {
         console.log(`The value of defineSigner is ${defineSigner}`);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
-        console.log(`the deployedTime of the contract is ${this.state.deploymentTime}`);
+        console.log(`the deployedTime of the contract is ${await this.state.deploymentTime}`);
         console.log(`the maxMintAccount of the contract is ${await clorisContract.maxMintAccount()}`);
         console.log(`the mintCost of the contract is ${await clorisContract.mintCost()}`);
         console.log(`the maxSupply of the contract is ${await clorisContract.maxSupply()}`);
         console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
         console.log(`the mintTime of the contract is ${await clorisContract.mintTime()}`);
         console.log(`the isPaused of the contract is ${await clorisContract.isPaused()}`);
-        // console.log(`the mintContract of the contract is ${await clorisSigner.mintContract(1)}`);
+        // console.log(`the mintContract of the contract is ${await this.state.clorisSigner.mintContract(1)}`);
         console.log(`the value of date is ${this.state.date}`);
         console.log(`the value of countDownDate is ${this.state.countDownDate}`)
         console.log(`the value of timeLeft is ${this.state.timeLeft}`);
         console.log(`The value of blockNumber is ${await this.state.provider.getBlockNumber()}`);
+        console.log(`The balanceOf Cloris from the user is ${await clorisContract.deployedTime()}`);
 
         // const balance = await this.state.provider.getBalance("ethers.eth");
         // console.log(`The value of balance is ${balance}`);
@@ -109,17 +111,17 @@ class App extends React.Component {
         // });
     }
 
-    RenderButton (){
-        if(this.state.isFuture) {
-            return null;
-        } 
+    // RenderButton (){
+    //     if(this.state.isFuture) {
+    //         return null;
+    //     } 
     
-        return (
-            <button onClick={this.handleClick}>
-                Mint Cloris!
-            </button>
-        )
-    }
+    //     return (
+    //         <button onClick={this.handleClick}>
+    //             Mint Cloris!
+    //         </button>
+    //     )
+    // }
 
     componentWillUnmount(){
         clearInterval(this.timerID);
@@ -139,12 +141,6 @@ class App extends React.Component {
                         <img src={logo} className="App-logo" alt="logo" />
                     </div>
                     <div className="status">
-                        {/* <button onClick={this.handleClick}>
-                            Mint Cloris!
-                        </button> */}
-                        {/* <RenderButton isFuture={this.state.isFuture} /> */}
-                        {/* {this.RenderButton} */}
-                        {/* <RenderButton /> */}
                         {(this.state.isFuture) ? null : 
                                 <button onClick={this.handleClick}>
                                     Mint Cloris!
@@ -167,17 +163,6 @@ class App extends React.Component {
     }
 }
 
-// RenderButton (props){
-//     if(props.isFuture) {
-//         return null;
-//     } 
-
-//     return (
-//         <button onClick={this.handleClick}>
-//             Mint Cloris!
-//         </button>
-//     )
-// }
 
 export default App;
 
