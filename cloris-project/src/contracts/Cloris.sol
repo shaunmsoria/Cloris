@@ -44,7 +44,7 @@ contract Cloris is ERC721Enumerable, Ownable {
             require( supply + tokensToMint <= maxSupply, "This contract exceeded the maximum mintable token amount");
             require(block.timestamp > mintTime, "Not the time to mint");
             require(tokensToMint > 0, "contract not mintable for a 0 amount");
-            require(balanceOf(msg.sender) <= maxMintAccount, "Exceeded the maximum mintable amount per account");
+            require(balanceOf(msg.sender) < maxMintAccount, "Exceeded the maximum mintable amount per account");
             require(tokensToMint <= maxMintAccount, "Exceeded the maximum mintable amount");
             require(tokensToMint <= tokenMaxPurchase, "Can't purchase more than 20 tokens at the time");
             require(!isPaused, "The owner of the contract paused the minting process");
