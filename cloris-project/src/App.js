@@ -4,16 +4,51 @@ import "./App.css";
 import { ethers } from "ethers";
 
 
-// Next stage: Connect to Cloris Smart Contract
 
+
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false };
+    }
+  
+    componentDidCatch(error, info) {
+      // Display fallback UI
+      this.setState({ hasError: true });
+      // You can also log the error to an error reporting service
+    //   logErrorToMyService(error, info);
+    }
+  
+    render() {
+      if (this.state.hasError) {
+        // You can render any custom fallback UI
+        return <h1>Something went wrong.</h1>;
+      }
+      return this.props.children;
+    }
+  }
+
+  const getCircularReplacer = () => {
+    const seen = new WeakSet();
+    return (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return;
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+  };
 
 class App extends React.Component {
     constructor (props){
         super(props);
         this.state = { 
             signer: "",
-            provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0x55B239D040ebf5B3130536F4216Eb34D5A16e065",
+            provider1: new ethers.providers.Web3Provider(window.ethereum),
+            clorisAddress: "0x16797154C3f300C2C8eBe0c617fA42E54f13B793",
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -31,7 +66,11 @@ class App extends React.Component {
             countDownDate: "",
             deploymentTime: "",
             timeLeft: "",
-            isFuture: false,
+            isFuture: false
+            // signerResult: "",
+            // errorState: false,
+            // errorError: "",
+            // errorInfo: ""
         };
         this.handleClick = this.handleClick.bind(this);
 
@@ -59,16 +98,28 @@ class App extends React.Component {
         this.calculateTimeLeft();
     }
 
+    // componentDidUpdate(){
+    //     console.log(`The valueo of signerResult is ${this.state.signerResult}`);
+    // }
+
     async handleClick (){
-        let mintResult = await this.state.clorisSigner.mintContract(1);
+        // let mintResult = await this.state.clorisSigner.mintContract(1);
+        this.setState({signerResult: await this.state.clorisSigner.mintContract(1)});
+        // console.log(`The value of signerResult is ${this.state.signerResult}`);
     }
 
+    // componentDidCatch(error,info){
+    //     this.setState({ errorState: true });
+    //     this.setState({ errorError: error });
+    //     this.setState({ errorInfo: info});
+    // }
+
     async componentDidMount(){
-        await this.state.provider.send("eth_requestAccounts", []);
-        const defineSigner = this.state.provider.getSigner();
+        await this.state.provider1.send("eth_requestAccounts", []);
+        const defineSigner = this.state.provider1.getSigner();
                this.setState({signer: defineSigner});
 
-        const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+        const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider1);
         // const clorisSigner = clorisContract.connect(this.state.signer);
         // await this.setState({clorisContract: new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider)});
         await this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
@@ -97,8 +148,11 @@ class App extends React.Component {
         console.log(`the value of date is ${this.state.date}`);
         console.log(`the value of countDownDate is ${this.state.countDownDate}`)
         console.log(`the value of timeLeft is ${this.state.timeLeft}`);
-        console.log(`The value of blockNumber is ${await this.state.provider.getBlockNumber()}`);
+        console.log(`The value of blockNumber is ${await this.state.provider1.getBlockNumber()}`);
         console.log(`The balanceOf Cloris from the user is ${await clorisContract.deployedTime()}`);
+        // console.log(`The value of provider is ${JSON.stringify(this.state.provider1, getCircularReplacer(),4)}`);
+        console.log(`The value of _isProvider is ${this.state.provider1._isProvider}`)
+
 
         // const balance = await this.state.provider.getBalance("ethers.eth");
         // console.log(`The value of balance is ${balance}`);
@@ -111,17 +165,7 @@ class App extends React.Component {
         // });
     }
 
-    // RenderButton (){
-    //     if(this.state.isFuture) {
-    //         return null;
-    //     } 
-    
-    //     return (
-    //         <button onClick={this.handleClick}>
-    //             Mint Cloris!
-    //         </button>
-    //     )
-    // }
+
 
     componentWillUnmount(){
         clearInterval(this.timerID);
@@ -129,6 +173,15 @@ class App extends React.Component {
 
     
     render (){
+        // let interAction;
+        // if( this.state.errorState){
+        //     interAction = <span> {this.state.errorInfo}</span>;
+        // } else if ( this.state.isFuture) {
+        //     interAction = null;
+        // } else {
+        //     interAction = <button onClick={this.handleClick}> Mint Cloris! </button>;
+        // }
+
         return (
             <div className="App">
                 <div className="title">
@@ -141,10 +194,20 @@ class App extends React.Component {
                         <img src={logo} className="App-logo" alt="logo" />
                     </div>
                     <div className="status">
-                        {(this.state.isFuture) ? null : 
-                                <button onClick={this.handleClick}>
-                                    Mint Cloris!
-                                </button>}
+                        {/* {interAction} */}
+                                                    
+
+                        {/* {(this.state.isFuture) ? 
+                            null : 
+                                ( (this.state.errorState)
+                                 ?  <span>{this.state.errorError}</span> : 
+                                    <button onClick={this.handleClick}>
+                                        Mint Cloris!
+                                    </button>)} */}
+                            {(this.state.isFuture ? null :
+                                    <button onClick={this.handleClick}>
+                                        Mint Cloris!
+                                    </button>)}
                         <span className="timeReference">
                             Deployment Time is: {this.state.deploymentTime}
                         </span>
