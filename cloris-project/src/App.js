@@ -7,27 +7,6 @@ import { ethers } from "ethers";
 
 
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { hasError: false };
-    }
-  
-    componentDidCatch(error, info) {
-      // Display fallback UI
-      this.setState({ hasError: true });
-      // You can also log the error to an error reporting service
-    //   logErrorToMyService(error, info);
-    }
-  
-    render() {
-      if (this.state.hasError) {
-        // You can render any custom fallback UI
-        return <h1>Something went wrong.</h1>;
-      }
-      return this.props.children;
-    }
-  }
 
   const getCircularReplacer = () => {
     const seen = new WeakSet();
@@ -47,11 +26,11 @@ class App extends React.Component {
         super(props);
         this.state = { 
             signer: "",
-            provider: new ethers.providers.Web3Provider(window.ethereum),
-            clorisAddress: "0xb1fc11829AAC5c9eD0284936deaeeA4e71eB9F77",
+            provider: "",
+            clorisAddress: "0xf6580954244AE3bb7316960E9b9583C801823535",
             userAddress: "",
             userNumberToken: 0,
-            maxNumberToken: 0,
+            maxNumberToken: 1,
             clorisAbi: [
                 "function name() view returns (string)",
                 "function symbol() view returns (string)",
@@ -112,13 +91,12 @@ class App extends React.Component {
 
 
     async componentDidMount(){
+        await this.setState({provider: new ethers.providers.Web3Provider(window.ethereum)});
         await this.state.provider.send("eth_requestAccounts", []);
-        const defineSigner = this.state.provider.getSigner();
-        this.setState({signer: defineSigner});
-
-        const clorisContract = new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+        const clorisContract = await new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
         // const clorisSigner = clorisContract.connect(this.state.signer);
-        // await this.setState({clorisContract: new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider)});
+        // this.setState({clorisContract: await new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider)});
+        await this.setState({signer: this.state.provider.getSigner()});
         await this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
 
         this.setState({deploymentTime: `${(new Date(await clorisContract.deployedTime() * 1000)).toLocaleString("en-US", {timeZoneName: "short"})}`});
@@ -135,7 +113,7 @@ class App extends React.Component {
 
 
         // Testing the front end
-        console.log(`The value of defineSigner is ${defineSigner}`);
+        console.log(`The value of signer is ${this.state.signer}`);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
         console.log(`the deployedTime of the contract is ${await this.state.deploymentTime}`);
@@ -152,8 +130,8 @@ class App extends React.Component {
         console.log(`The value of blockNumber is ${await this.state.provider.getBlockNumber()}`);
         console.log(`The Cloris deployedTime is ${await clorisContract.deployedTime()}`);
         // console.log(`The value of provider is ${JSON.stringify(this.state.provider, getCircularReplacer(),4)}`);
-        console.log(`The value of _isProvider is ${this.state.provider.provider._state.accounts[0]}`);
-        // console.log(`The value of walletOwner is ${await this.state.clorisSigner.walletOfOwner(this.state.provider.provider._state.accounts[0])}`);
+        console.log(`The value of accounts[0] is ${this.state.provider.provider._state.accounts[0]}`);
+        console.log(`The value of walletOwner is ${await this.state.clorisSigner.walletOfOwner(this.state.provider.provider._state.accounts[0])}`);
         console.log(`The value of walletOwner is ${await this.state.clorisSigner.walletOfOwner(this.state.userAddress)}`);
         console.log(`The value of userNumberToken is ${this.state.userNumberToken}`);
 
@@ -205,7 +183,7 @@ class App extends React.Component {
                                 </button>)} */}
 
                         {(this.state.isFuture ? null :
-                                this.state.userNumberToken > this.state.maxNumberToken ?
+                                this.state.userNumberToken >= this.state.maxNumberToken ?
                                     <button>You minted the maximum amount of token allowed.</button> :
                                     <button onClick={this.handleClick}> Mint Cloris! </button>)}
 
