@@ -4,22 +4,40 @@ import "./App.css";
 import { ethers } from "ethers";
 
 
+const cAddress = "0x5723cdF55fAB5a711787016419896ADA45B55189";
+const cABI = [
+    "function name() view returns (string)",
+    "function symbol() view returns (string)",
+    "function deployedTime() view returns (uint)",
+    "function maxMintAccount() view returns (uint)",
+    "function mintCost() view returns (uint)",
+    "function maxSupply() view returns (uint)",
+    "function tokenMaxPurchase() view returns (uint)",
+    "function mintTime() view returns (uint)",
+    "function isPaused() view returns (bool)",
+    "function mintContract(uint) payable returns ()",
+    "function walletOfOwner(address) public view returns (uint256[])"
+];
+const cProvider = new ethers.providers.Web3Provider(window.ethereum);
+const cSend = async () => {await cProvider.send("eth_requestAccounts", [])};
+const clorisContract = new ethers.Contract(cAddress, cABI, cProvider);
+
+const cSigner = cProvider.getSigner();
+const cWithSigner = clorisContract.connect(cSigner);
 
 
-
-
-  const getCircularReplacer = () => {
-    const seen = new WeakSet();
-    return (key, value) => {
-      if (typeof value === 'object' && value !== null) {
-        if (seen.has(value)) {
-          return;
-        }
-        seen.add(value);
-      }
-      return value;
-    };
-  };
+const getCircularReplacer = () => {
+const seen = new WeakSet();
+return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+    if (seen.has(value)) {
+        return;
+    }
+    seen.add(value);
+    }
+    return value;
+};
+};
 
 class App extends React.Component {
     constructor (props){
@@ -27,7 +45,7 @@ class App extends React.Component {
         this.state = { 
             signer: "",
             provider: "",
-            clorisAddress: "0xf6580954244AE3bb7316960E9b9583C801823535",
+            clorisAddress: "0x1473Ff96d44F1f4be5f61B328C3Ff07E11538A5A",
             userAddress: "",
             userNumberToken: 0,
             maxNumberToken: 1,
@@ -81,9 +99,13 @@ class App extends React.Component {
 
 
     async handleClick (){
-        this.setState({userAddress: this.state.provider.provider._state.accounts[0]});
-        let mintResult = await this.state.clorisSigner.mintContract(1);
-        this.setState({userNumberToken: (await this.state.clorisSigner.walletOfOwner(this.state.userAddress)).length});
+        this.setState({userAddress: cProvider.provider._state.accounts[0]});
+        let mintResult = await cWithSigner.mintContract(1);
+        this.setState({userNumberToken: (await cWithSigner.walletOfOwner(this.state.userAddress)).length});
+
+        // this.setState({userAddress: this.state.provider.provider._state.accounts[0]});
+        // let mintResult = await this.state.clorisSigner.mintContract(1);
+        // this.setState({userNumberToken: (await this.state.clorisSigner.walletOfOwner(this.state.userAddress)).length});
 
         // this.setState({signerResult: await this.state.clorisSigner.mintContract(1)});
         // console.log(`The value of signerResult is ${this.state.signerResult}`);
@@ -91,19 +113,25 @@ class App extends React.Component {
 
 
     async componentDidMount(){
-        await this.setState({provider: new ethers.providers.Web3Provider(window.ethereum)});
-        await this.state.provider.send("eth_requestAccounts", []);
-        const clorisContract = await new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+        cSend();
+
+        // await this.setState({provider: new ethers.providers.Web3Provider(window.ethereum)});
+        // await this.state.provider.send("eth_requestAccounts", []);
+        // const clorisContract = await new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider);
+
+
         // const clorisSigner = clorisContract.connect(this.state.signer);
         // this.setState({clorisContract: await new ethers.Contract(this.state.clorisAddress, this.state.clorisAbi, this.state.provider)});
-        await this.setState({signer: this.state.provider.getSigner()});
-        await this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
+        
+        // await this.setState({signer: this.state.provider.getSigner()});
+        // await this.setState({clorisSigner: clorisContract.connect(this.state.signer)});
 
         this.setState({deploymentTime: `${(new Date(await clorisContract.deployedTime() * 1000)).toLocaleString("en-US", {timeZoneName: "short"})}`});
         this.setState({countDownDate: `${await clorisContract.mintTime()}`});
-        this.setState({userAddress: this.state.provider.provider._state.accounts[0]});
-        this.setState({userNumberToken: (await this.state.clorisSigner.walletOfOwner(this.state.userAddress)).length});
-        this.setState({maxNumberToken: await clorisContract.maxMintAccount()});
+        // this.setState({userAddress: this.state.provider.provider._state.accounts[0]});
+        this.setState({userAddress: cProvider.provider._state.accounts[0]});
+
+
 
         this.calculateTimeLeft();
 
@@ -113,10 +141,10 @@ class App extends React.Component {
 
 
         // Testing the front end
-        console.log(`The value of signer is ${this.state.signer}`);
+        console.log(`The value of signer is ${cSigner}`);
         console.log(`the name of the contract is ${await clorisContract.name()}`);
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
-        console.log(`the deployedTime of the contract is ${await this.state.deploymentTime}`);
+        console.log(`the deployedTime of the contract is ${this.state.deploymentTime}`);
         console.log(`the maxMintAccount of the contract is ${await clorisContract.maxMintAccount()}`);
         console.log(`the mintCost of the contract is ${await clorisContract.mintCost()}`);
         console.log(`the maxSupply of the contract is ${await clorisContract.maxSupply()}`);
@@ -127,13 +155,13 @@ class App extends React.Component {
         console.log(`the value of date is ${this.state.date}`);
         console.log(`the value of countDownDate is ${this.state.countDownDate}`)
         console.log(`the value of timeLeft is ${this.state.timeLeft}`);
-        console.log(`The value of blockNumber is ${await this.state.provider.getBlockNumber()}`);
+        console.log(`The value of blockNumber is ${await cProvider.getBlockNumber()}`);
         console.log(`The Cloris deployedTime is ${await clorisContract.deployedTime()}`);
         // console.log(`The value of provider is ${JSON.stringify(this.state.provider, getCircularReplacer(),4)}`);
-        console.log(`The value of accounts[0] is ${this.state.provider.provider._state.accounts[0]}`);
-        console.log(`The value of walletOwner is ${await this.state.clorisSigner.walletOfOwner(this.state.provider.provider._state.accounts[0])}`);
-        console.log(`The value of walletOwner is ${await this.state.clorisSigner.walletOfOwner(this.state.userAddress)}`);
-        console.log(`The value of userNumberToken is ${this.state.userNumberToken}`);
+        console.log(`The value of accounts[0] is ${cProvider.provider._state.accounts[0]}`);
+        console.log(`The value of walletOwner is ${await cWithSigner.walletOfOwner(cProvider.provider._state.accounts[0])}`);
+        console.log(`The value of walletOwner is ${await cWithSigner.walletOfOwner(this.state.userAddress)}`);
+        console.log(`The value of userNumberToken before update is ${this.state.userNumberToken}`);
 
         // const balance = await this.state.provider.getBalance("ethers.eth");
         // console.log(`The value of balance is ${balance}`);
@@ -144,6 +172,14 @@ class App extends React.Component {
         //      to: "0x40953332Fe1c3838b93Ed6071403A7CD54eb9AE1",
         //      value: ethers.utils.parseEther("1.0")
         // });
+
+        // this.setState({userNumberToken: (await this.state.clorisSigner.walletOfOwner(this.state.userAddress)).length});
+        this.setState({userNumberToken: (await cWithSigner.walletOfOwner(this.state.userAddress)).length});
+
+        this.setState({maxNumberToken: await clorisContract.maxMintAccount()});
+
+        console.log(`The value of userNumberToken after update is ${this.state.userNumberToken}`);
+
     }
 
 
@@ -182,7 +218,7 @@ class App extends React.Component {
                                     Mint Cloris!
                                 </button>)} */}
 
-                        {(this.state.isFuture ? null :
+                        {(this.state.isFuture ? <button>Contract almost ready for Minting!</button> :
                                 this.state.userNumberToken >= this.state.maxNumberToken ?
                                     <button>You minted the maximum amount of token allowed.</button> :
                                     <button onClick={this.handleClick}> Mint Cloris! </button>)}
