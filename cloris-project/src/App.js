@@ -80,6 +80,7 @@ class App extends React.Component {
         console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
         console.log(`the deployedTime of the contract is ${this.state.deploymentTime}`);
         console.log(`the maxMintAccount of the contract is ${await clorisContract.maxMintAccount()}`);
+        console.log(`maxMintAccount content is ${JSON.stringify(this.state.maxNumberToken, null, 4)}`);
         console.log(`the mintCost of the contract is ${await clorisContract.mintCost()}`);
         console.log(`the maxSupply of the contract is ${await clorisContract.maxSupply()}`);
         console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
@@ -101,6 +102,9 @@ class App extends React.Component {
 
     }
 
+    // componentDidUpdate()){
+    //     this.setState({ max})
+    // }
 
 
     componentWillUnmount(){
@@ -128,6 +132,12 @@ class App extends React.Component {
                         </span>
                         <span className="timeReference">
                             {this.state.timeLeft}
+                        </span>
+                        <span className="timeReference">
+                            The maximum mintable Cloris NFT is {(this.state.maxNumberToken).toString()}.
+                        </span>
+                        <span className="timeReference">
+                            Your wallet currently contain {this.state.userNumberToken} Cloris NFT.
                         </span>
                         {(this.state.isFuture ? 
                                 <button>Contract almost ready for Minting!</button> :
