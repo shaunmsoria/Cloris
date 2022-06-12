@@ -30479,12 +30479,12 @@
         }
       },
       "links": {},
-      "address": "0x291BEA3c4EA74EeDB4bA8A4403f2C4571A1992BF",
-      "transactionHash": "0x1a772ad4fe0fe17dbf92ebf78aca5bf55e038caa3e028464311c50785c8b5022"
+      "address": "0x60fB98DCcbd12608d4Cc552D8eebaCDD94005A5d",
+      "transactionHash": "0x99d51ae66261bce0e6e9f78be840e788ef9de574a88d1204aa970841cc63d195"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-06-09T19:33:41.002Z",
+  "updatedAt": "2022-06-12T10:34:54.535Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

@@ -50,14 +50,15 @@ class App extends React.Component {
         this.calculateTimeDifferenceFromMinting();
     }
 
-
+    async clorisSignerUpdate(){
+        this.setState({userNumberToken: (await clorisWithSigner.walletOfOwner(this.state.userAddress)).length});
+    }
 
     async handleClick (){
         this.setState({userAddress: clorisProvider.provider._state.accounts[0]});
         await clorisWithSigner.mintContract(1);
         this.setState({userNumberToken: (await clorisWithSigner.walletOfOwner(this.state.userAddress)).length});
     }
-
 
     async componentDidMount(){
 
@@ -97,18 +98,22 @@ class App extends React.Component {
         console.log(`The value of userNumberToken before update is ${this.state.userNumberToken}`);
 
         // Require User to sign in with Metamask
-        this.setState({userNumberToken: (await clorisWithSigner.walletOfOwner(this.state.userAddress)).length});
-        console.log(`The value of userNumberToken after update is ${this.state.userNumberToken}`);
+        this.signerUpdate = setInterval(
+            () => this.clorisSignerUpdate(), 1000
+        );
+
+        
 
     }
 
     // componentDidUpdate()){
-    //     this.setState({ max})
+        // this.setState({ max})
     // }
 
 
     componentWillUnmount(){
         clearInterval(this.timerID);
+        clearInterval(this.signerUpdate);
     }
 
     
