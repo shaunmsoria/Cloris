@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 
 // Setting up the connection to the cloris smart contract
 
-export const clorisAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+export const clorisAddress = "0x5F091A1961850b6bFa772bFD0d81AB346bb21c4d";
 
 export const clorisABI = [
     "function name() view returns (string)",

@@ -74,28 +74,7 @@ class App extends React.Component {
             () => this.tick(), 1000
         );
 
-        // Testing the front end
-        // console.log(`The value of signer is ${clorisSigner}`);
-        // console.log(`the name of the contract is ${await clorisContract.name()}`);
-        // console.log(`the symbol of the contract is ${await clorisContract.symbol()}`);
-        // console.log(`the deployedTime of the contract is ${this.state.deploymentTime}`);
-        // console.log(`the maxMintAccount of the contract is ${await clorisContract.maxMintAccount()}`);
-        // console.log(`maxMintAccount content is ${JSON.stringify(this.state.maxNumberToken, null, 4)}`);
-        // console.log(`the mintCost of the contract is ${await clorisContract.mintCost()}`);
-        // console.log(`the maxSupply of the contract is ${await clorisContract.maxSupply()}`);
-        // console.log(`the tokenMaxPurchase of the contract is ${await clorisContract.tokenMaxPurchase()}`);
-        // console.log(`the mintTime of the contract is ${await clorisContract.mintTime()}`);
-        // console.log(`the isPaused of the contract is ${await clorisContract.isPaused()}`);
-        // console.log(`the value of date is ${this.state.date}`);
-        // console.log(`the value of countDownDate is ${this.state.countDownDate}`)
-        // console.log(`the value of timeLeft is ${this.state.timeLeft}`);
-        // console.log(`The value of blockNumber is ${await clorisProvider.getBlockNumber()}`);
-        // console.log(`The Cloris deployedTime is ${await clorisContract.deployedTime()}`);
-        // console.log(`The value of accounts[0] is ${clorisProvider.provider._state.accounts[0]}`);
-        // console.log(`The value of walletOwner is ${await clorisWithSigner.walletOfOwner(clorisProvider.provider._state.accounts[0])}`);
-        // console.log(`The value of walletOwner is ${await clorisWithSigner.walletOfOwner(this.state.userAddress)}`);
-        // console.log(`The value of userNumberToken before update is ${this.state.userNumberToken}`);
-
+        
         // Require User to sign in with Metamask
         this.signerUpdate = setInterval(
             () => this.clorisSignerUpdate(), 1000
@@ -104,10 +83,6 @@ class App extends React.Component {
         
 
     }
-
-    // componentDidUpdate()){
-        // this.setState({ max})
-    // }
 
 
     componentWillUnmount(){
