@@ -1,4 +1,20 @@
+html,body{
+    height: 100% ;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.root {
+    display: flex;
+    height: 100%;
+}
+
 .App {
+    height: 100%;
     /* text-align: center; */
     background-color: black;
     color: white;
@@ -9,29 +25,56 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 10vmin;
+    font-size: 2em;
 }
 
 .App-logo {
     height: 40vmin;
     pointer-events: none; 
+    margin-right: 50px;
   }
 
 .content {
-    min-height: 80vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 .timeReference {
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items:flex-start;
+    font-size: 1.4em;
+}
+
+.buttonSpan{
+    /* width: 100%; */
+    margin-top: 20px;
+}
+
+.buttonStyle {
+    margin-top: 15px;
+}
+
+.buttonText{
+    font-size: 1.7em;
+    font-weight:bold;
 }
 
 .socialMedia{
+    min-height: 10vmin;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-size: 1.5em;
+}
+
+.socialTags{
+    margin-left: 10px;
+    margin-right: 10px;
 }
