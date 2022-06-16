@@ -30,6 +30,13 @@ module.exports = {
           [process.env.DEPLOYER_PRIVATE_KEY], `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`)
       },
       network_id: 3
+    },
+    rinkeby: {
+      provider: function() {
+        return new HDWalletProvider(
+          [process.env.DEPLOYER_PRIVATE_KEY], `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`)
+      },
+      network_id: 4
     }
 
   },
