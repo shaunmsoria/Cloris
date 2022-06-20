@@ -105,7 +105,7 @@ contract Cloris is ERC721Enumerable, Ownable {
     function tokenURI(uint256 tokenId) 
         public view virtual override returns (string memory) {
             require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
-            return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI,"/picture", tokenId.toString(), baseExtensionURI)) : "";
+            return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI,"/", tokenId.toString(), baseExtensionURI)) : "";
     }
 
     function setBaseURI (string memory _newBaseURI) 

@@ -9,7 +9,8 @@ const metaPath = path.join(base,"/build/json");
 const main = async () => {
     for ( let i = 1; i <= config.imageCount; i++){
         let data = '';
-        let name = `picture${i}`;
+        // let name = `picture${i}`;
+        let name = `${i}`;
         await fs.readFile(`${metaPath}/${name}.json`, 'utf8', (err, dataFile) => {
             if (err){
                 console.log(err);

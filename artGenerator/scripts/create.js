@@ -87,7 +87,8 @@ async function create() {
     for (let i = 0; i < config.imageCount ; i++){
         const picData = {};
         console.log(`index value ${i}`);
-        picData.name = `picture${i+1}`; 
+        picData.name = `${i+1}`;
+        // picData.name = `picture${i+1}`; 
         picData.layers = await createMeta(picData.name);
     }; 
 
