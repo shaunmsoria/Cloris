@@ -1,10 +1,10 @@
 {
-  "id": "b7448307187d2e5770367be7e5bb13a1a3ab3dad",
+  "id": "b15e4fe0711cb4a48ee938a5b9a08969d9e23fe9",
   "name": "108",
   "description": "Cloris",
-  "image": "https://gateway.pinata.cloud/ipfs/QmZ4oQKNM95aZbmyrE4Pd49mZ34sfjmiKyrQfj5hvcnBFV/108.png",
+  "image": "https://gateway.pinata.cloud/ipfs/QmS9oKo44t7rntnD2JgkinxHoysfadvfMsZXCX3nvR4bMu/108.png",
   "edition": "1",
-  "date": 1655759014401,
+  "date": 1655845273696,
   "attributes": [
     {
       "trait_type": "Backgrounds",
@@ -16,23 +16,23 @@
     },
     {
       "trait_type": "Shoes",
-      "value": "shoes4.png"
+      "value": "shoes3.png"
     },
     {
       "trait_type": "Pants",
-      "value": "pants8.png"
+      "value": "pants7.png"
     },
     {
       "trait_type": "Suits",
-      "value": "suit7.png"
+      "value": "suit3.png"
     },
     {
       "trait_type": "Heads",
-      "value": "head4.png"
+      "value": "head1.png"
     },
     {
       "trait_type": "Hats",
-      "value": "hat7.png"
+      "value": "hat3.png"
     }
   ]
 }
