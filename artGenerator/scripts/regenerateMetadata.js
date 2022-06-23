@@ -7,7 +7,7 @@ const metaPath = path.join(base,"/build/json");
 
 
 const main = async () => {
-    for ( let i = 1; i <= config.imageCount; i++){
+    for ( let i = 0; i <= config.imageCount; i++){
         let data = '';
         // let name = `picture${i}`;
         let name = `${i}`;
