@@ -1,1 +1,9 @@
-# Cloris
+# Cloris NFT Token
+
+Here are my study notes for the NFT Token Project
+
+//TODO
+
+ 1) What is here...
+ 2) What problem...
+ 3) What next...
