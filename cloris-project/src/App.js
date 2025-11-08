@@ -133,7 +133,7 @@ class App extends React.Component {
                     </h1>
                     <div>
                         <span className="socialTags"><a href="https://github.com/Solarisray/Cloris" target="jsx-no-target-blank">GitHub</a></span>
-                        <span className="socialTags"><a href="https://solarisray.github.io/resume/" target="jsx-no-target-blank">Resume</a></span>
+                        <span className="socialTags"><a href="https://shaunmsoria.github.io/resume/" target="jsx-no-target-blank">Resume</a></span>
                         <span className="socialTags"><a href="https://linkedin.com/in/shaunmsoria" target="jsx-no-target-blank">LinkedIn</a></span>
                     </div>
                     
